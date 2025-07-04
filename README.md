@@ -113,6 +113,9 @@ https://<your-render-or-ngrok-url>/webhook
 
 * Events: Check Push and Pull Request
 
+## 📸 This is the screenshot of the ui
+
+![Frontend App Screenshot](./public/image.png)
 
 ## ✅ Summary
 This project demonstrates real-time event tracking using Flask + MongoDB + GitHub Webhooks + Frontend polling.
