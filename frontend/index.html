@@ -1,129 +1,146 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>GitHub Events Tracker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      font-family: 'Roboto', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-    h2 {
-      margin-top: 48px;
-      color: #22223b;
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-shadow: 0 2px 8px rgba(60,60,100,0.08);
-    }
-    #events {
-      list-style: none;
-      padding: 0;
-      margin: 32px 0 0 0;
-      width: 90vw;
-      max-width: 500px;
-      background: rgba(255,255,255,0.95);
-      border-radius: 18px;
-      box-shadow: 0 4px 24px rgba(60,60,100,0.10);
-      overflow: hidden;
-    }
-    #events li {
-      padding: 20px 28px;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 1.1rem;
-      color: #22223b;
-      transition: background 0.2s;
-      position: relative;
-      animation: fadeIn 0.7s;
-    }
-    #events li:last-child {
-      border-bottom: none;
-    }
-    #events li::before {
-      content: "";
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 16px;
-      vertical-align: middle;
-      background: #4ea8de;
-      box-shadow: 0 0 8px #4ea8de44;
-    }
-    #events li[data-type="push"]::before {
-      background: #4ea8de;
-    }
-    #events li[data-type="pull_request"]::before {
-      background: #f9c74f;
-    }
-    #events li[data-type="merge"]::before {
-      background: #43aa8b;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @media (max-width: 600px) {
+  <head>
+    <title>GitHub Events Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: "Roboto", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
       h2 {
-        font-size: 1.3rem;
-        margin-top: 24px;
+        margin-top: 48px;
+        color: #22223b;
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 8px rgba(60, 60, 100, 0.08);
       }
       #events {
-        max-width: 98vw;
-        margin-top: 16px;
+        list-style: none;
+        padding: 0;
+        margin: 32px 0 0 0;
+        width: 90vw;
+        max-width: 500px;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(60, 60, 100, 0.1);
+        overflow: hidden;
       }
       #events li {
-        padding: 14px 10px;
-        font-size: 0.98rem;
+        padding: 20px 28px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 1.1rem;
+        color: #22223b;
+        transition: background 0.2s;
+        position: relative;
+        animation: fadeIn 0.7s;
       }
-    }
-  </style>
-</head>
-<body>
-  <h2>Latest GitHub Events</h2>
-  <ul id="events"></ul>
-
-  <script>
-    async function fetchEvents() {
-      try {
-        const res = await fetch("/events");
-        const data = await res.json();
-        const list = document.getElementById("events");
-        list.innerHTML = "";
-
-        data.forEach(e => {
-          let text = "";
-          const t = new Date(e.timestamp).toUTCString();
-
-          if (e.type === "push") {
-            text = `${e.author} pushed to ${e.to_branch} on ${t}`;
-          } else if (e.type === "pull_request") {
-            text = `${e.author} submitted a pull request from ${e.from_branch} to ${e.to_branch} on ${t}`;
-          } else if (e.type === "merge") {
-            text = `${e.author} merged branch ${e.from_branch} to ${e.to_branch} on ${t}`;
-          }
-
-          const li = document.createElement("li");
-          li.textContent = text;
-          li.setAttribute("data-type", e.type);
-          list.appendChild(li);
-        });
-
-      } catch (err) {
-        console.error("Failed to load events", err);
+      #events li:last-child {
+        border-bottom: none;
       }
-    }
+      #events li::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 16px;
+        vertical-align: middle;
+        background: #4ea8de;
+        box-shadow: 0 0 8px #4ea8de44;
+      }
+      #events li[data-type="push"]::before {
+        background: #4ea8de;
+      }
+      #events li[data-type="pull_request"]::before {
+        background: #f9c74f;
+      }
+      #events li[data-type="merge"]::before {
+        background: #43aa8b;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @media (max-width: 600px) {
+        h2 {
+          font-size: 1.3rem;
+          margin-top: 24px;
+        }
+        #events {
+          max-width: 98vw;
+          margin-top: 16px;
+        }
+        #events li {
+          padding: 14px 10px;
+          font-size: 0.98rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Latest GitHub Events</h2>
+    <ul id="events"></ul>
 
-    fetchEvents();
-    setInterval(fetchEvents, 15000); // every 15 seconds
-  </script>
-</body>
+    <script>
+      async function fetchEvents() {
+        try {
+          const res = await fetch("/events");
+          const data = await res.json();
+          const list = document.getElementById("events");
+          list.innerHTML = "";
+
+          data.forEach((e) => {
+            let text = "";
+            const t =
+              new Date(e.timestamp).toLocaleString("en-IN", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+                timeZone: "Asia/Kolkata",
+              }) + " IST";
+
+            if (e.type === "push") {
+              text = `${e.author} pushed to ${e.to_branch} on ${t}`;
+            } else if (e.type === "pull_request") {
+              text = `${e.author} submitted a pull request from ${e.from_branch} to ${e.to_branch} on ${t}`;
+            } else if (e.type === "merge") {
+              text = `${e.author} merged branch ${e.from_branch} to ${e.to_branch} on ${t}`;
+            }
+
+            const li = document.createElement("li");
+            li.textContent = text;
+            li.setAttribute("data-type", e.type);
+            list.appendChild(li);
+          });
+        } catch (err) {
+          console.error("Failed to load events", err);
+        }
+      }
+
+      fetchEvents();
+      setInterval(fetchEvents, 15000); // every 15 seconds
+    </script>
+  </body>
 </html>
